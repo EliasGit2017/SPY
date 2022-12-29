@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43975586, g: 0.4881789, b: 0.56839776, a: 1}
+  m_IndirectSpecularColor: {r: 0.43975624, g: 0.48818004, b: 0.5683994, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1466,7 +1466,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 649317142}
   m_HandleRect: {fileID: 649317141}
   m_Direction: 0
-  m_Value: -0.0000022888185
+  m_Value: -0.00000057220456
   m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4928,6 +4928,8 @@ GameObject:
   - component: {fileID: 361349241}
   - component: {fileID: 361349242}
   - component: {fileID: 361349243}
+  - component: {fileID: 361349245}
+  - component: {fileID: 361349244}
   m_Layer: 0
   m_Name: Main_Loop
   m_TagString: Untagged
@@ -5158,9 +5160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba2903f935ae409db85e9d39acd985a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabGameData: {fileID: 3833649377614804033, guid: 0c781d4c9bf00bb48ad0e4df8f089e03,
-    type: 3}
-  mover: {fileID: 1488190706}
 --- !u!114 &361349243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5173,8 +5172,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 998497da9e885481e9496c34678fbb18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &361349244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361349215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bcd1ba79f86a24492b1be1196d3b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   camera: {fileID: 963194227}
   leftMenu: {fileID: 567685737}
+--- !u!114 &361349245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361349215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f204d5730737b0a43bacee79a71f4002, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabGameData: {fileID: 3833649377614804033, guid: 0c781d4c9bf00bb48ad0e4df8f089e03,
+    type: 3}
+  mover: {fileID: 1488190706}
 --- !u!1 &371440127
 GameObject:
   m_ObjectHideFlags: 0
@@ -18231,7 +18257,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1488190706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f9117f39f1d344a5933f919f9d21d79, type: 3}
+  m_Script: {fileID: 11500000, guid: adefe5c263275704286784ab7a53f275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1488190708
