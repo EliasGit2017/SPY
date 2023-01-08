@@ -34,9 +34,9 @@ public class SelectBlockSystem : FSystem
 		GameObjectManager.unbind(mover.transform.GetChild(0).gameObject);
 		UnityEngine.GameObject.Destroy(mover.transform.GetChild(0).gameObject);
 		GameObject newGO = UnityEngine.GameObject.Instantiate(obj, mover.transform);
-		newGO.GetComponent<BoxCollider>().enabled = false;
-		newGO.transform.localScale /= 3;
-		newGO.transform.localPosition = Vector3.zero;
+		if (newGO.GetComponent<BoxCollider>() != null)
+			newGO.GetComponent<BoxCollider>().enabled = false;
+		// newGO.transform.localPosition = Vector3.zero;
 		GameObjectManager.bind(newGO);
 		gameData.editorBlock = obj;
 	}

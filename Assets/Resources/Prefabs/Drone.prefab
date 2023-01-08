@@ -33,8 +33,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889490105086536494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -67.26889, y: 8.520317, z: 12.790215}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4682739803772209176}
   m_Father: {fileID: 0}
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   x: 0
-  z: 0
+  y: 0
 --- !u!114 &8936784549097885255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,9 +216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884027c6c0273814ebb677a51949b7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptContainer: {fileID: 0}
-  uiContainer: {fileID: 0}
-  currentAction: 0
+  executableScript: {fileID: 0}
+  executablePanel: {fileID: 0}
+  scriptFinished: 0
+  nbOfInactions: 0
 --- !u!114 &9018447352748071422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,22 +247,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: clique pour voir mon<br>comportement !
---- !u!111 &7534346248983528881
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4682739803772113976}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: ebd93510fa248c143865523addc5c978, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: ebd93510fa248c143865523addc5c978, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1001 &4682739803772080792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -337,6 +323,22 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4682739803772080792}
   m_PrefabAsset: {fileID: 0}
+--- !u!111 &7534346248983528881
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4682739803772113976}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: ebd93510fa248c143865523addc5c978, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: ebd93510fa248c143865523addc5c978, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!4 &4682739803772209176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 28723f10c2a8e094a9351e892f5271b8,

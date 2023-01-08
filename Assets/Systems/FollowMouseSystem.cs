@@ -36,14 +36,14 @@ public class FollowMouseSystem : FSystem
 			Vector3 pos = _hit.point;
 			if (_hit.transform.gameObject.layer == 0)
 			{
-				pos = new Vector3((float)Math.Floor(pos.x + 0.5f), (float)Math.Floor(pos.y + 0.5f),
-					(float)Math.Floor(pos.z + 0.5f));
+				pos = new Vector3((float)Math.Floor(pos.x/3 + 0.5f)*3, (float)Math.Floor(pos.y/3 + 0.5f)*3,
+					(float)Math.Floor(pos.z/3 + 0.5f)*3);
 			}
 			else
 			{
-				pos = _hit.transform.gameObject.transform.position + _hit.normal;
+				pos = _hit.transform.gameObject.transform.position + 3 * _hit.normal;
 			}
-
+			
 			Debug.DrawRay(_hit.point, _hit.normal * 2, Color.green);
 			if (Input.mousePosition.x > _rectTransform.sizeDelta.x)
 			{
@@ -55,7 +55,12 @@ public class FollowMouseSystem : FSystem
 						GameObject newGo =
 							UnityEngine.Object.Instantiate(gameData.editorBlock, pos, Quaternion.identity);
 						GameObjectManager.bind(newGo);
-						newGo.transform.localScale = Vector3.one;
+						// newGo.transform.localScale /= 3;
+						if (newGo.name.Contains("Teleporter"))
+						{
+							newGo.transform.Rotate(Vector3.left, 90f);
+							newGo.transform.localPosition -= new Vector3(0, 1.5f, 0);
+						}
 					}
 
 					if (Input.GetMouseButtonDown(1))
