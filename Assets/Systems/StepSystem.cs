@@ -56,6 +56,9 @@ public class StepSystem : FSystem {
 
     // Use to process your families.
     protected override void onProcess(int familiesUpdateCount) {
+
+        gameData.totalTime += Time.deltaTime;
+
         //Organize each steps
         if (f_newEnd.Count == 0 && (playerHasNextAction() || timeStepCpt > 0))
         {

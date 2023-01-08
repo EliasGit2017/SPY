@@ -87,6 +87,16 @@ public class UISystem : FSystem {
 		// En cas de fin de niveau
 		if (go.GetComponent<NewEnd>().endType == NewEnd.Win)
 		{
+			//save score only if better time
+			float timeLevel = gameData.totalTime;
+			Debug.Log("temps du niveau :" + timeLevel);
+			float savedTime = PlayerPrefs.GetFloat(gameData.levelToLoad + gameData.timeKey, 0);
+			if (timeLevel < savedTime)
+			{
+				PlayerPrefs.SetFloat(gameData.levelToLoad + gameData.timeKey, timeLevel);
+				PlayerPrefs.Save();
+			}
+
 			// Hide library panel
 			GameObjectManager.setGameObjectState(libraryPanel.transform.parent.parent.gameObject, false);
 			// Hide menu panel
@@ -243,7 +253,9 @@ public class UISystem : FSystem {
 		gameData.totalCoin = 0;
 		gameData.levelToLoadScore = null;
 		gameData.dialogMessage = new List<(string, string, float, int, int)>();
-}
+
+		gameData.totalTime = 0;
+	}
 
 
 	// See NextLevel button in editor

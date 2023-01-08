@@ -22,4 +22,7 @@ public class GameData : MonoBehaviour {
 	public float gameSpeed_current = 1f;
 	public bool dragDropEnabled = true;
 	public GameObject editorBlock;
+
+	public string timeKey = "time";
+	public float totalTime; // player time in the level
 }
