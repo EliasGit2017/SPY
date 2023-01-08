@@ -90,7 +90,8 @@ public class UISystem : FSystem {
 			//save score only if better time
 			float timeLevel = gameData.totalTime;
 			Debug.Log("temps du niveau :" + timeLevel);
-			float savedTime = PlayerPrefs.GetFloat(gameData.levelToLoad + gameData.timeKey, 0);
+			float savedTime = PlayerPrefs.GetFloat(gameData.levelToLoad + gameData.timeKey, float.PositiveInfinity);
+			Debug.Log("Meilleurs temps du niveau :" + savedTime);
 			if (timeLevel < savedTime)
 			{
 				PlayerPrefs.SetFloat(gameData.levelToLoad + gameData.timeKey, timeLevel);
