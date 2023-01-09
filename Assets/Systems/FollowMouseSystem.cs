@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using FYFY_plugins.PointerManager;
 using UnityEngine;
 using FYFY;
@@ -43,9 +45,8 @@ public class FollowMouseSystem : FSystem
 			{
 				pos = _hit.transform.gameObject.transform.position + 3 * _hit.normal;
 			}
-			
 			Debug.DrawRay(_hit.point, _hit.normal * 2, Color.green);
-			if (Input.mousePosition.x > _rectTransform.sizeDelta.x)
+			if (Input.mousePosition.x > _rectTransform.sizeDelta.x/2)
 			{
 				foreach (GameObject go in f_followMouse)
 				{
@@ -56,11 +57,34 @@ public class FollowMouseSystem : FSystem
 							UnityEngine.Object.Instantiate(gameData.editorBlock, pos, Quaternion.identity);
 						GameObjectManager.bind(newGo);
 						// newGo.transform.localScale /= 3;
+						foreach (var col in newGo.transform.GetComponentsInChildren<Collider>())
+						{
+							UnityEngine.Object.Destroy(col);
+						}
+						newGo.AddComponent<BoxCollider>();
+						BoxCollider collider = newGo.GetComponent<BoxCollider>();
+						Vector3 scale = newGo.transform.localScale;
+						collider.size = new Vector3(3f / scale.x, 3f / scale.y, 3f / scale.z);
+						Debug.Log(scale);
+
 						if (newGo.name.Contains("Teleporter"))
 						{
 							newGo.transform.Rotate(Vector3.left, 90f);
 							newGo.transform.localPosition -= new Vector3(0, 1.5f, 0);
+							collider.center = new Vector3(0f, 0f, 3f);
 						}
+
+						if (newGo.name.Contains("Robot"))
+						{
+							newGo.transform.localPosition -= new Vector3(0, 1.3f, 0);
+							collider.center = new Vector3(0, 1, 0);
+						}
+
+						if (newGo.layer == 0)
+						{
+							newGo.layer = 3;
+						}
+							
 					}
 
 					if (Input.GetMouseButtonDown(1))

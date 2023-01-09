@@ -32,6 +32,7 @@ public class CameraSystem : FSystem {
 	public float cameraZoomMax;
 	// Déplacement avec la molette
 	public float dragSpeed;
+	public bool followTarget;
 
 	public static CameraSystem instance;
 
@@ -45,16 +46,19 @@ public class CameraSystem : FSystem {
 		mainCamera = Camera.main;
 
 		// set current camera target (the first player)
-		f_player.addEntryCallback(delegate (GameObject go) { focusOnAgent(go); });
-
-		f_focusOn.addEntryCallback(delegate (GameObject go)
+		if (followTarget)
 		{
-			FocusCamOn newTarget = go.GetComponent<FocusCamOn>();
-			unfocusAgent();
-			targetPos = new Vector3(newTarget.camY * 3, 3.5f, newTarget.camX * 3);
-			MainLoop.instance.StartCoroutine(travelingOnPos());
-			GameObjectManager.removeComponent(newTarget);
-		});
+			f_player.addEntryCallback(delegate(GameObject go) { focusOnAgent(go); });
+
+			f_focusOn.addEntryCallback(delegate(GameObject go)
+			{
+				FocusCamOn newTarget = go.GetComponent<FocusCamOn>();
+				unfocusAgent();
+				targetPos = new Vector3(newTarget.camY * 3, 3.5f, newTarget.camX * 3);
+				MainLoop.instance.StartCoroutine(travelingOnPos());
+				GameObjectManager.removeComponent(newTarget);
+			});
+		}
 	}
 
 	// Use to process your families.
