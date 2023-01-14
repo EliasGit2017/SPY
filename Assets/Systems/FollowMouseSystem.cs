@@ -1,15 +1,12 @@
 using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using FYFY_plugins.PointerManager;
 using UnityEngine;
 using FYFY;
-using UnityEngine.EventSystems;
+using FYFY_plugins.PointerManager;
 using Debug = UnityEngine.Debug;
 
 public class FollowMouseSystem : FSystem
 {
-	private GameData gameData;
+	private EditorData editorData;
 
 	public static EndGameManager instance;
 
@@ -17,6 +14,7 @@ public class FollowMouseSystem : FSystem
 	public GameObject leftMenu;	
 	
 	private Family f_followMouse = FamilyManager.getFamily(new AllOfComponents(typeof(FollowMouse)));
+	private Family f_pointerOver = FamilyManager.getFamily(new AllOfComponents(typeof(PointerOver)));
 	private RaycastHit _hit;
 	private Ray _ray;
 	private RectTransform _rectTransform;
@@ -26,46 +24,58 @@ public class FollowMouseSystem : FSystem
 		base.onStart();
 		Application.targetFrameRate = 60;
 		_rectTransform = leftMenu.GetComponent<RectTransform>();
-		gameData = GameObject.Find("GameData").GetComponent<GameData>();
+		editorData = GameObject.Find("EditorData").GetComponent<EditorData>();
 	}
 
 	// Use to process your families.
-	protected override void onProcess(int familiesUpdateCount) {
-		_ray = camera.ScreenPointToRay(Input.mousePosition);
-		Physics.Raycast(_ray, out _hit, 100.0f);
-		if (_hit.distance > 0)
+	protected override void onProcess(int familiesUpdateCount)
+	{
+		bool overUI = false;
+		foreach (var go in f_pointerOver)
 		{
-			Vector3 pos = _hit.point;
-			if (_hit.transform.gameObject.layer == 0)
+			if (go.layer == 5)
 			{
-				pos = new Vector3((float)Math.Floor(pos.x/3 + 0.5f)*3, (float)Math.Floor(pos.y/3 + 0.5f)*3,
-					(float)Math.Floor(pos.z/3 + 0.5f)*3);
+				overUI = true;
+				break;
 			}
-			else
+		}
+		if (editorData.editorMode == EditorData.Mode.Place && !overUI)
+		{
+			_ray = camera.ScreenPointToRay(Input.mousePosition);
+			Physics.Raycast(_ray, out _hit, 100.0f);
+			if (_hit.distance > 0)
 			{
-				pos = _hit.transform.gameObject.transform.position + 3 * _hit.normal;
-			}
-			Debug.DrawRay(_hit.point, _hit.normal * 2, Color.green);
-			if (Input.mousePosition.x > _rectTransform.sizeDelta.x/2)
-			{
+				Vector3 pos = _hit.point;
+				if (_hit.transform.gameObject.layer == 0)
+				{
+					pos = new Vector3((float)Math.Floor(pos.x / 3 + 0.5f) * 3, (float)Math.Floor(pos.y / 3 + 0.5f) * 3,
+						(float)Math.Floor(pos.z / 3 + 0.5f) * 3);
+				}
+				else
+				{
+					pos = _hit.transform.gameObject.transform.position + 3 * _hit.normal;
+				}
+				
+				Debug.DrawRay(_hit.point, _hit.normal, Color.green);
+
 				foreach (GameObject go in f_followMouse)
 				{
 					go.transform.position = pos * go.transform.localScale.x;
 					if (Input.GetMouseButtonDown(0))
 					{
 						GameObject newGo =
-							UnityEngine.Object.Instantiate(gameData.editorBlock, pos, Quaternion.identity);
+							UnityEngine.Object.Instantiate(editorData.editorBlock, pos, Quaternion.identity);
 						GameObjectManager.bind(newGo);
 						// newGo.transform.localScale /= 3;
 						foreach (var col in newGo.transform.GetComponentsInChildren<Collider>())
 						{
 							UnityEngine.Object.Destroy(col);
 						}
+
 						newGo.AddComponent<BoxCollider>();
 						BoxCollider collider = newGo.GetComponent<BoxCollider>();
 						Vector3 scale = newGo.transform.localScale;
 						collider.size = new Vector3(3f / scale.x, 3f / scale.y, 3f / scale.z);
-						Debug.Log(scale);
 
 						if (newGo.name.Contains("Teleporter"))
 						{
@@ -84,7 +94,6 @@ public class FollowMouseSystem : FSystem
 						{
 							newGo.layer = 3;
 						}
-							
 					}
 
 					if (Input.GetMouseButtonDown(1))

@@ -3,8 +3,7 @@ using FYFY;
 
 public class SelectBlockSystem : FSystem
 {
-	private GameData gameData;
-	public GameData prefabGameData;
+	private EditorData editorData;
 	
 	public static SelectBlockSystem instance;
 	public GameObject mover;
@@ -17,23 +16,14 @@ public class SelectBlockSystem : FSystem
 	protected override void onStart()
 	{
 		base.onStart();
-		if (!GameObject.Find("GameData"))
-		{
-			gameData = UnityEngine.Object.Instantiate(prefabGameData);
-			gameData.name = "GameData";
-			GameObjectManager.dontDestroyOnLoadAndRebind(gameData.gameObject);
-		}
-		else
-		{
-			gameData = GameObject.Find("GameData").GetComponent<GameData>();
-		}
+		editorData = GameObject.Find("EditorData").GetComponent<EditorData>();
 	}
 
 	public void selectBlock(GameObject obj)
 	{
 		GameObjectManager.unbind(mover.transform.GetChild(0).gameObject);
-		UnityEngine.GameObject.Destroy(mover.transform.GetChild(0).gameObject);
-		GameObject newGO = UnityEngine.GameObject.Instantiate(obj, mover.transform);
+		GameObject.Destroy(mover.transform.GetChild(0).gameObject);
+		GameObject newGO = GameObject.Instantiate(obj, mover.transform);
 		if (newGO.GetComponent<BoxCollider>() != null)
 			newGO.GetComponent<BoxCollider>().enabled = false;
 		foreach (var collider in newGO.transform.GetComponentsInChildren<Collider>())
@@ -42,7 +32,7 @@ public class SelectBlockSystem : FSystem
 		}
 
 		GameObjectManager.bind(newGO);
-		gameData.editorBlock = obj;
+		editorData.editorBlock = obj;
 	}
 }
 

@@ -3,12 +3,10 @@ using FYFY;
 
 public class SelectBlockSystem_wrapper : BaseWrapper
 {
-	public GameData prefabGameData;
 	public UnityEngine.GameObject mover;
 	private void Start()
 	{
 		this.hideFlags = HideFlags.NotEditable;
-		MainLoop.initAppropriateSystemField (system, "prefabGameData", prefabGameData);
 		MainLoop.initAppropriateSystemField (system, "mover", mover);
 	}
 
