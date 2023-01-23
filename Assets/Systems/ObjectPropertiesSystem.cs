@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using FYFY;
 using TMPro;
@@ -17,6 +18,28 @@ public class ObjectPropertiesSystem : FSystem {
 		currentGameObject = editorData.propertiesBlock;
 	}
 
+	private string list2string(List<int> l)
+	{
+		string str = "";
+		
+		if (l.Count == 0)
+			return "";
+		
+		for (int i = 0; i < l.Count - 1; i++)
+		{
+			str += i + ", ";
+		}
+
+		str += l[l.Count - 1].ToString();
+		return str;
+	}
+
+	private List<int> string2list(string str)
+	{
+		List<string> str_l = str.Split(',').ToList();
+		return str_l.Select(int.Parse).ToList();
+	}
+	
 	public void changeDirection(int dir)
 	{
 		editorData.propertiesBlock.GetComponent<Direction>().direction = (Direction.Dir)dir;
@@ -36,14 +59,26 @@ public class ObjectPropertiesSystem : FSystem {
 		}
 	}
 
+	public void saveActivable(string str)
+	{
+		List<Activable> act = editorData.propertiesBlock.GetComponentsInChildren<Activable>().ToList();
+		act.Add(editorData.propertiesBlock.GetComponent<Activable>());
+		act[0].slotID = string2list(str);
+	}
+	
 	protected override void onProcess(int familiesUpdateCount)
 	{
 		if (currentGameObject != editorData.propertiesBlock)
 		{
-			editionPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = editorData.propertiesBlock.name;
+			string name = editorData.propertiesBlock.name;
+			name = name.Replace("(Clone)", "");
+			
+			editionPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = name;
 			
 			List<Direction> dir = editorData.propertiesBlock.GetComponentsInChildren<Direction>().ToList();
-			dir.Add(editorData.propertiesBlock.GetComponent<Direction>());
+			Direction goDir = editorData.propertiesBlock.GetComponent<Direction>();
+			if (goDir != null)
+				dir.Add(goDir);
 			if (dir.Count == 0)
 			{
 				editionPanel.transform.GetChild(1).gameObject.SetActive(false);
@@ -54,15 +89,18 @@ public class ObjectPropertiesSystem : FSystem {
 				GameObject.Find("DirectionDropDown").GetComponent<TMP_Dropdown>().value = (int)dir[0].direction;
 			}
 
-			Activable[] act = editorData.propertiesBlock.GetComponentsInChildren<Activable>();
-			if (act.Length == 0)
+			List<Activable> act = editorData.propertiesBlock.GetComponentsInChildren<Activable>().ToList();
+			Activable goAct = editorData.propertiesBlock.GetComponent<Activable>();
+			if (goAct != null)
+				act.Add(goAct);
+			if (act.Count == 0)
 			{
 				editionPanel.transform.GetChild(2).gameObject.SetActive(false);
 			}
 			else
 			{
 				editionPanel.transform.GetChild(2).gameObject.SetActive(true);
-				GameObject.Find("IdInputField").GetComponent<TMP_InputField>().text = act[0].slotID.ToString();
+				GameObject.Find("IdInputField").GetComponent<TMP_InputField>().text = list2string(act[0].slotID);
 			}
 			currentGameObject = editorData.propertiesBlock;
 		}
