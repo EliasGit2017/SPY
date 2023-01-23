@@ -50,6 +50,7 @@ public class MoveSystem : FSystem {
     {
 		playMoveAnimation(go);
 		MainLoop.instance.StartCoroutine(removeForceMoving(go));
+		
     }
 
 	private IEnumerator removeForceMoving(GameObject go)
