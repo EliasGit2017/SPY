@@ -267,7 +267,8 @@ public class EditableContainerSystem : FSystem
 		if (oldName != newName)
 		{
 			// Si le nom n'est pas utilis� et que le mode n'est pas locked
-			if (!nameContainerUsed(char.ToUpper(newName[0]) + newName.Substring(1)) && containerSelected.editState != UIRootContainer.EditMode.Locked)
+			string noncasesensitive_name = char.ToUpper(newName[0]) + newName.Substring(1);
+			if (!nameContainerUsed(noncasesensitive_name) && containerSelected.editState != UIRootContainer.EditMode.Locked)
 			{
 				// Si le container est en mode synch, rechercher le ou les agents associ�s
 				if (containerSelected.editState == UIRootContainer.EditMode.Synch)
@@ -281,7 +282,7 @@ public class EditableContainerSystem : FSystem
 						}
 				}
 				// On change pour son nouveau nom
-				containerSelected.scriptName = char.ToUpper(newName[0]) + newName.Substring(1) /*newName*/;
+				containerSelected.scriptName = noncasesensitive_name /*newName*/;
 				containerSelected.transform.Find("Header").Find("ContainerName").GetComponent<TMP_InputField>().text = newName;
 			}
 			else
