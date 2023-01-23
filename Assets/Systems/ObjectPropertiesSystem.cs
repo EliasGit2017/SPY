@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -39,10 +40,14 @@ public class ObjectPropertiesSystem : FSystem {
 		List<string> str_l = str.Split(',').ToList();
 		return str_l.Select(int.Parse).ToList();
 	}
-	
+
 	public void changeDirection(int dir)
 	{
-		editorData.propertiesBlock.GetComponent<Direction>().direction = (Direction.Dir)dir;
+		List<Direction> go = editorData.propertiesBlock.GetComponentsInChildren<Direction>().ToList();
+		Direction goDir = editorData.propertiesBlock.GetComponent<Direction>();
+		if (goDir != null)
+			go.Add(goDir);
+		go[0].direction = (Direction.Dir)dir;
 		if (dir == 0)
 			editorData.propertiesBlock.transform.rotation = Quaternion.Euler(0, -90, 0);
 		else if (dir == 1)
@@ -62,9 +67,21 @@ public class ObjectPropertiesSystem : FSystem {
 	public void saveActivable(string str)
 	{
 		List<Activable> act = editorData.propertiesBlock.GetComponentsInChildren<Activable>().ToList();
-		act.Add(editorData.propertiesBlock.GetComponent<Activable>());
+		Activable goAct = editorData.propertiesBlock.GetComponent<Activable>();
+		if (goAct != null)
+			act.Add(goAct);
 		act[0].slotID = string2list(str);
 	}
+
+	public void saveActivationSlot(string str)
+	{
+		List<ActivationSlot> actSlot = editorData.propertiesBlock.GetComponentsInChildren<ActivationSlot>().ToList();
+		ActivationSlot goActSlot = editorData.propertiesBlock.GetComponent<ActivationSlot>();
+		if (goActSlot != null)
+			actSlot.Add(goActSlot);
+		actSlot[0].slotID = Int32.Parse(str);
+	}
+	
 	
 	protected override void onProcess(int familiesUpdateCount)
 	{
@@ -102,6 +119,25 @@ public class ObjectPropertiesSystem : FSystem {
 				editionPanel.transform.GetChild(2).gameObject.SetActive(true);
 				GameObject.Find("IdInputField").GetComponent<TMP_InputField>().text = list2string(act[0].slotID);
 			}
+			
+			List<ActivationSlot> actSlot = editorData.propertiesBlock.GetComponentsInChildren<ActivationSlot>().ToList();
+			ActivationSlot goActSlot = editorData.propertiesBlock.GetComponent<ActivationSlot>();
+			if (goActSlot != null)
+				actSlot.Add(goActSlot);
+			foreach (var d in actSlot)
+			{
+				Debug.Log(d);
+			}
+			if (actSlot.Count == 0)
+			{
+				editionPanel.transform.GetChild(3).gameObject.SetActive(false);
+			}
+			else
+			{
+				editionPanel.transform.GetChild(3).gameObject.SetActive(true);
+				GameObject.Find("SlotInputField").GetComponent<TMP_InputField>().text = actSlot[0].slotID.ToString();
+			}
+			
 			currentGameObject = editorData.propertiesBlock;
 		}
 	}

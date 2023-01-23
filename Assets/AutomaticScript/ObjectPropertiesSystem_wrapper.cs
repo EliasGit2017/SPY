@@ -15,4 +15,14 @@ public class ObjectPropertiesSystem_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "changeDirection", dir);
 	}
 
+	public void saveActivable(System.String str)
+	{
+		MainLoop.callAppropriateSystemMethod (system, "saveActivable", str);
+	}
+
+	public void saveActivationSlot(System.String str)
+	{
+		MainLoop.callAppropriateSystemMethod (system, "saveActivationSlot", str);
+	}
+
 }
