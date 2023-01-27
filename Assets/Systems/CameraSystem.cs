@@ -45,9 +45,9 @@ public class CameraSystem : FSystem {
 	{
 		mainCamera = Camera.main;
 
-		// set current camera target (the first player)
 		if (followTarget)
 		{
+			// set current camera target (the first player)
 			f_player.addEntryCallback(delegate(GameObject go) { focusOnAgent(go); });
 
 			f_focusOn.addEntryCallback(delegate(GameObject go)
