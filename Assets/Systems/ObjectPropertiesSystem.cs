@@ -81,6 +81,12 @@ public class ObjectPropertiesSystem : FSystem {
 			actSlot.Add(goActSlot);
 		actSlot[0].slotID = Int32.Parse(str);
 	}
+
+	public void saveAgentName(string str)
+	{
+		AgentEdit agentEdit = editorData.propertiesBlock.GetComponent<AgentEdit>();
+		agentEdit.associatedScriptName = str;
+	}
 	
 	
 	protected override void onProcess(int familiesUpdateCount)
@@ -136,6 +142,17 @@ public class ObjectPropertiesSystem : FSystem {
 			{
 				editionPanel.transform.GetChild(3).gameObject.SetActive(true);
 				GameObject.Find("SlotInputField").GetComponent<TMP_InputField>().text = actSlot[0].slotID.ToString();
+			}
+
+			AgentEdit agentEdit = editorData.propertiesBlock.GetComponent<AgentEdit>();
+			if (agentEdit == null)
+			{
+				editionPanel.transform.GetChild(4).gameObject.SetActive(false);
+			}
+			else
+			{
+				editionPanel.transform.GetChild(4).gameObject.SetActive(true);
+				GameObject.Find("AgentNameField").GetComponent<TMP_InputField>().text = agentEdit.associatedScriptName;
 			}
 			
 			currentGameObject = editorData.propertiesBlock;

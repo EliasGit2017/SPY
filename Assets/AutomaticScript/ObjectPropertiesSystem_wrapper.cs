@@ -25,4 +25,9 @@ public class ObjectPropertiesSystem_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "saveActivationSlot", str);
 	}
 
+	public void saveAgentName(System.String str)
+	{
+		MainLoop.callAppropriateSystemMethod (system, "saveAgentName", str);
+	}
+
 }
