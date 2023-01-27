@@ -21,4 +21,5 @@
     <level name = "Levels/Infiltration/Niveau19.xml" />
     <level name = "Levels/Infiltration/Niveau20.xml" />
     <level name = "Levels/Infiltration/Niveau21.xml" />
+    <level name = "Levels/Infiltration/test.xml" />
 </scenario>
