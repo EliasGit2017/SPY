@@ -372,6 +372,18 @@ public class GenerateLevelEditor : FSystem {
 					playerNode.Attributes.Append(posXAttribute);
 					playerNode.Attributes.Append(directionAttribute);
 					levelNode.AppendChild(playerNode);
+
+					XmlNode scriptNode = xmlDoc.CreateElement("script");
+					XmlAttribute nameAttribute = xmlDoc.CreateAttribute("name");
+					XmlAttribute editModeAttribute = xmlDoc.CreateAttribute("editMode");
+					nameAttribute.Value = goPlayer.name;
+					editModeAttribute.Value = 0.ToString();
+					scriptNode.Attributes.Append(nameAttribute);
+					scriptNode.Attributes.Append(editModeAttribute);
+					levelNode.AppendChild(scriptNode);
+
+
+
 				}
 			}
 			
