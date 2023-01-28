@@ -2,6 +2,10 @@
 <scenario>
   <!--<level name="Levels/GeneratedCampaign/test2.xml" />-->
   <level name="Levels/GeneratedCampaign/CustomLevel308.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel140.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel375.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel388.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel873.xml" />
   <level name="Levels/GeneratedCampaign/CustomLevel570.xml" />
   <level name="Levels/GeneratedCampaign/CustomLevel719.xml" />
   <level name="Levels/GeneratedCampaign/CustomLevel692.xml" />

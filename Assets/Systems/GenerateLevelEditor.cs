@@ -301,7 +301,7 @@ public class GenerateLevelEditor : FSystem {
 					XmlNode doorNode = xmlDoc.CreateElement("door");
 					XmlAttribute posYAttribute = xmlDoc.CreateAttribute("posY");
 					XmlAttribute posXAttribute = xmlDoc.CreateAttribute("posX");
-					XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotID");
+					XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotId");
 					XmlAttribute directionAttribute = xmlDoc.CreateAttribute("direction");
 
 					posYAttribute.Value = line.IndexOf(gridX).ToString();
@@ -346,7 +346,7 @@ public class GenerateLevelEditor : FSystem {
 					foreach(int slotID in slotsID)
                     {
 						XmlNode slotNode = xmlDoc.CreateElement("slot");
-						XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotID");
+						XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotId");
 						slotIDAttribute.Value = slotID.ToString();
 						slotNode.Attributes.Append(slotIDAttribute);
 						consoleNode.AppendChild(slotNode);
