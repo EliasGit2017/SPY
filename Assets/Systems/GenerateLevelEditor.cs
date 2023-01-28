@@ -15,7 +15,7 @@ public class GenerateLevelEditor : FSystem {
 	private EditorData editorData;
 
 	// On récupére tout les éléments pouvant etre présent dans un niveau 
-	private Family f_player = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef), typeof(Position)), new AnyOfTags("Player"));
+	private Family f_player = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef), typeof(Position), typeof(AgentEdit)), new AnyOfTags("Player"));
 	private Family f_drone = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef)), new AnyOfTags("Drone")); 
 	private Family f_exit = FamilyManager.getFamily(new AllOfComponents(typeof(Position), typeof(AudioSource)), new AnyOfTags("Exit"));
 	private Family f_spawn = FamilyManager.getFamily(new AllOfComponents(typeof(Position), typeof(AudioSource)), new AnyOfTags("Spawn"));
@@ -28,6 +28,8 @@ public class GenerateLevelEditor : FSystem {
 
 	// On récupére les dialogues
 	private Family f_dialogs = FamilyManager.getFamily(new AllOfComponents(typeof(Dialogs)));
+
+	private Family f_scriptContainer = FamilyManager.getFamily(new AllOfComponents(typeof(UIRootContainer)), new AnyOfTags("ScriptConstructor")); // Les containers de scripts
 
 
 	public GenerateLevelEditor()
@@ -172,6 +174,9 @@ public class GenerateLevelEditor : FSystem {
 
 		}
 
+		line.Sort();
+		column.Sort();
+
 		writeXMLMap(xmlDoc, mapNode, line ,column, gridvalue);
 		writeXMLDialogs(xmlDoc, dialogsNode);
 		writeXMLBlockLimits(xmlDoc, blockLimitsNode);
@@ -179,28 +184,17 @@ public class GenerateLevelEditor : FSystem {
 		writeXMLRobots(xmlDoc, levelNode, line, column);
 		writeXMLDecorations(xmlDoc, levelNode, line, column);
 
+		writeXMLScripts(xmlDoc,levelNode);
+
 		xmlDoc.Save("C:/Users/cedco/OneDrive/Bureau/PROJET ISG/SPY/Assets/XmlTest/test.xml");
 
 	}
 
 	private void writeXMLMap(XmlDocument xmlDoc, XmlNode mapNode, List<float> line, List<float> column, Dictionary<(float, float), int> gridvalue)
 	{
-		line.Sort();
-		column.Sort();
 
 		int nbline = line.Count();
 		int nbcolumn = column.Count();
-
-		Debug.Log("nbline :" + nbline);
-		Debug.Log("nbcolumn :" + nbcolumn);
-		foreach (float l in line)
-		{
-			Debug.Log("line :" + l);
-		}
-		foreach (float c in column)
-		{
-			Debug.Log("column:" + c);
-		}
 
 		for (int i = 0; i < nbline; i++)
 		{
@@ -249,6 +243,202 @@ public class GenerateLevelEditor : FSystem {
 
 	}
 
+	private void writeXMLScripts(XmlDocument xmlDoc, XmlNode levelNode)
+	{
+		foreach (GameObject container in f_scriptContainer)
+		{
+			XmlNode scriptNode = xmlDoc.CreateElement("script");
+			XmlAttribute nameAttribute = xmlDoc.CreateAttribute("name");
+			nameAttribute.Value = container.GetComponent<UIRootContainer>().scriptName;
+			scriptNode.Attributes.Append(nameAttribute);
+
+			// On parcours les blocs dedans 
+			for (int i = 0; i < container.transform.childCount; i++)
+			{
+				if (container.transform.GetChild(i).GetComponent<BaseElement>())
+				{
+					BaseElement bloc = container.transform.GetChild(i).GetComponent<BaseElement>();
+
+					// Pour chaque bloc action simple
+					if (bloc.gameObject.GetComponent<BasicAction>())
+					{
+						BasicAction act = bloc.gameObject.GetComponent<BasicAction>();
+						XmlNode actionNode = xmlDoc.CreateElement("action");
+						XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+						typeAttribute.Value = act.actionType.ToString();
+						actionNode.Attributes.Append(typeAttribute);
+						scriptNode.AppendChild(actionNode);
+
+					}
+
+					// Pour chaque bloc for
+					if (bloc.gameObject.GetComponent<ForControl>())
+					{
+						ForControl forAct = bloc.gameObject.GetComponent<ForControl>();
+						// Pour chaque block de While
+						if (forAct is WhileControl)
+						{
+							WhileControl whileAct = bloc.gameObject.GetComponent<WhileControl>();
+							XmlNode whileNode = xmlDoc.CreateElement("while");
+
+							//Condition
+							XmlNode conditionNode = xmlDoc.CreateElement("condition");
+							GameObject condition = whileAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
+							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("captor");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = capt.captorType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								conditionNode.AppendChild(actionNode);
+							}
+
+
+							//Then
+							XmlNode containerNode = xmlDoc.CreateElement("container");
+							GameObject thenContainer = whileAct.transform.Find("Container").gameObject;
+							foreach (BasicAction act in thenContainer.GetComponentsInChildren<BasicAction>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("action");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = act.actionType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								containerNode.AppendChild(actionNode);
+							}
+
+							whileNode.AppendChild(conditionNode);
+							whileNode.AppendChild(containerNode);
+							scriptNode.AppendChild(whileNode);
+
+						}
+                        else
+                        {
+							XmlNode forNode = xmlDoc.CreateElement("for");
+							XmlAttribute nbForAttribute = xmlDoc.CreateAttribute("nbFor");
+							nbForAttribute.Value = forAct.nbFor.ToString();
+							forNode.Attributes.Append(nbForAttribute);
+
+							foreach (BasicAction act in forAct.GetComponentsInChildren<BasicAction>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("action");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = act.actionType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								forNode.AppendChild(actionNode);
+							}
+
+							scriptNode.AppendChild(forNode);
+						}
+					}
+
+						// Pour chaque block de boucle infini
+					if (bloc.gameObject.GetComponent<ForeverControl>())
+					{
+						ForeverControl loopAct = bloc.gameObject.GetComponent<ForeverControl>();
+						XmlNode foreverNode = xmlDoc.CreateElement("forever");
+						foreach (BasicAction act in loopAct.GetComponentsInChildren<BasicAction>(true))
+						{
+							XmlNode actionNode = xmlDoc.CreateElement("action");
+							XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+							typeAttribute.Value = act.actionType.ToString();
+							actionNode.Attributes.Append(typeAttribute);
+							foreverNode.AppendChild(actionNode);
+						}
+						scriptNode.AppendChild(foreverNode);
+					}
+
+					// Pour chaque block if
+					if (bloc.gameObject.GetComponent<IfControl>())
+					{
+						IfControl ifAct = bloc.gameObject.GetComponent<IfControl>();
+						//Si c'est un elseAction
+						if (ifAct is IfElseControl)
+                        {
+							XmlNode ifElseNode = xmlDoc.CreateElement("ifElse");
+
+							//Condition
+							XmlNode conditionNode = xmlDoc.CreateElement("condition");
+							GameObject condition = ifAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
+							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("captor");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = capt.captorType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								conditionNode.AppendChild(actionNode);
+							}
+
+							//ThenContainer
+							XmlNode thenContainerNode = xmlDoc.CreateElement("thenContainer");
+							GameObject thenContainer = ifAct.transform.Find("Container").gameObject;
+							foreach (BasicAction act in thenContainer.GetComponentsInChildren<BasicAction>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("action");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = act.actionType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								thenContainerNode.AppendChild(actionNode);
+							}
+
+							//ElseContainer
+
+							XmlNode elseContainerNode = xmlDoc.CreateElement("elseContainer");
+							GameObject elseContainer = ifAct.transform.Find("ElseContainer").gameObject;
+							foreach(BasicAction act in elseContainer.GetComponentsInChildren<BasicAction>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("action");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = act.actionType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								elseContainerNode.AppendChild(actionNode);
+							}
+
+							ifElseNode.AppendChild(conditionNode);
+							ifElseNode.AppendChild(thenContainerNode);
+							ifElseNode.AppendChild(elseContainerNode);
+							scriptNode.AppendChild(ifElseNode);
+						}
+
+						else
+                        {
+							XmlNode ifNode = xmlDoc.CreateElement("if");
+
+							//Condition
+							XmlNode conditionNode = xmlDoc.CreateElement("condition");
+							GameObject condition = ifAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
+							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("captor");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = capt.captorType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								conditionNode.AppendChild(actionNode);
+							}
+
+							//Then
+							XmlNode containerNode = xmlDoc.CreateElement("container");
+							GameObject thenContainer = ifAct.transform.Find("Container").gameObject;
+							foreach (BasicAction act in thenContainer.GetComponentsInChildren<BasicAction>(true))
+							{
+								XmlNode actionNode = xmlDoc.CreateElement("action");
+								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+								typeAttribute.Value = act.actionType.ToString();
+								actionNode.Attributes.Append(typeAttribute);
+								containerNode.AppendChild(actionNode);
+							}
+
+							ifNode.AppendChild(conditionNode);
+							ifNode.AppendChild(containerNode);
+							scriptNode.AppendChild(ifNode);
+						}
+					}
+				}
+			}
+
+			levelNode.AppendChild(scriptNode);
+		}
+	}
+
 	private void writeXMLBlockLimits(XmlDocument xmlDoc, XmlNode blockLimitsNode)
     {
 		foreach((string blockType, int limit) in editorData.actionBlockLimit)
@@ -269,9 +459,6 @@ public class GenerateLevelEditor : FSystem {
 
 	private void writeXMLInteractives(XmlDocument xmlDoc, XmlNode levelNode, List<float> line, List<float> column)
     {
-		line.Sort();
-		column.Sort();
-
 		foreach (GameObject goDoor in f_door)
 		{
 			if (goDoor.transform.parent == null)
@@ -284,7 +471,7 @@ public class GenerateLevelEditor : FSystem {
 					XmlNode doorNode = xmlDoc.CreateElement("door");
 					XmlAttribute posYAttribute = xmlDoc.CreateAttribute("posY");
 					XmlAttribute posXAttribute = xmlDoc.CreateAttribute("posX");
-					XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotID");
+					XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotId");
 					XmlAttribute directionAttribute = xmlDoc.CreateAttribute("direction");
 
 					posYAttribute.Value = line.IndexOf(gridX).ToString();
@@ -329,7 +516,7 @@ public class GenerateLevelEditor : FSystem {
 					foreach(int slotID in slotsID)
                     {
 						XmlNode slotNode = xmlDoc.CreateElement("slot");
-						XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotID");
+						XmlAttribute slotIDAttribute = xmlDoc.CreateAttribute("slotId");
 						slotIDAttribute.Value = slotID.ToString();
 						slotNode.Attributes.Append(slotIDAttribute);
 						consoleNode.AppendChild(slotNode);
@@ -344,9 +531,6 @@ public class GenerateLevelEditor : FSystem {
 
 	private void writeXMLRobots(XmlDocument xmlDoc, XmlNode levelNode, List<float> line, List<float> column)
 	{
-		line.Sort();
-		column.Sort();
-
 		foreach (GameObject goPlayer in f_player)
 		{
 			if (goPlayer.transform.parent == null)
@@ -362,7 +546,7 @@ public class GenerateLevelEditor : FSystem {
 					XmlAttribute posXAttribute = xmlDoc.CreateAttribute("posX");
 					XmlAttribute directionAttribute = xmlDoc.CreateAttribute("direction");
 
-					scriptNameAttribute.Value = goPlayer.name;
+					scriptNameAttribute.Value = goPlayer.GetComponent<AgentEdit>().associatedScriptName;
 					posYAttribute.Value = line.IndexOf(gridX).ToString();
 					posXAttribute.Value = column.IndexOf(gridY).ToString();
 					directionAttribute.Value = ((int)(goPlayer.GetComponent<Direction>().direction)).ToString();
@@ -372,16 +556,6 @@ public class GenerateLevelEditor : FSystem {
 					playerNode.Attributes.Append(posXAttribute);
 					playerNode.Attributes.Append(directionAttribute);
 					levelNode.AppendChild(playerNode);
-
-					XmlNode scriptNode = xmlDoc.CreateElement("script");
-					XmlAttribute nameAttribute = xmlDoc.CreateAttribute("name");
-					XmlAttribute editModeAttribute = xmlDoc.CreateAttribute("editMode");
-					nameAttribute.Value = goPlayer.name;
-					editModeAttribute.Value = 0.ToString();
-					scriptNode.Attributes.Append(nameAttribute);
-					scriptNode.Attributes.Append(editModeAttribute);
-					levelNode.AppendChild(scriptNode);
-
 
 
 				}
@@ -400,6 +574,7 @@ public class GenerateLevelEditor : FSystem {
 				if (line.Contains(gridX) && column.Contains(gridY))
 				{
 					XmlNode enemyNode = xmlDoc.CreateElement("enemy");
+					XmlAttribute scriptNameAttribute = xmlDoc.CreateAttribute("associatedScriptName");
 					XmlAttribute posYAttribute = xmlDoc.CreateAttribute("posY");
 					XmlAttribute posXAttribute = xmlDoc.CreateAttribute("posX");
 					XmlAttribute directionAttribute = xmlDoc.CreateAttribute("direction");
@@ -407,6 +582,7 @@ public class GenerateLevelEditor : FSystem {
 					XmlAttribute selfRangeAttribute = xmlDoc.CreateAttribute("selfRange");
 					XmlAttribute typeRangeAttribute = xmlDoc.CreateAttribute("typeRange");
 
+					scriptNameAttribute.Value = "Guarde";
 					posYAttribute.Value = line.IndexOf(gridX).ToString();
 					posXAttribute.Value = column.IndexOf(gridY).ToString();
 					directionAttribute.Value = ((int)(goDrone.GetComponent<Direction>().direction)).ToString();
@@ -414,6 +590,7 @@ public class GenerateLevelEditor : FSystem {
 					selfRangeAttribute.Value = "False";
 					typeRangeAttribute.Value = 0.ToString();
 
+					enemyNode.Attributes.Append(scriptNameAttribute);
 					enemyNode.Attributes.Append(posYAttribute);
 					enemyNode.Attributes.Append(posXAttribute);
 					enemyNode.Attributes.Append(directionAttribute);
@@ -429,9 +606,6 @@ public class GenerateLevelEditor : FSystem {
 
 	private void writeXMLDecorations(XmlDocument xmlDoc, XmlNode levelNode, List<float> line, List<float> column)
 	{
-		line.Sort();
-		column.Sort();
-
 		foreach (GameObject goDecoration in f_decoration)
 		{
 			if (goDecoration.transform.parent == null)
