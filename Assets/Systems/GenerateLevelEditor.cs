@@ -14,7 +14,7 @@ public class GenerateLevelEditor : FSystem {
 	public static GenerateLevelEditor instance;
 	private EditorData editorData;
 
-	// On récupére tout les éléments pouvant etre présent dans un niveau 
+	// On rï¿½cupï¿½re tout les ï¿½lï¿½ments pouvant etre prï¿½sent dans un niveau 
 	private Family f_player = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef), typeof(Position)), new AnyOfTags("Player"));
 	private Family f_drone = FamilyManager.getFamily(new AllOfComponents(typeof(ScriptRef)), new AnyOfTags("Drone")); 
 	private Family f_exit = FamilyManager.getFamily(new AllOfComponents(typeof(Position), typeof(AudioSource)), new AnyOfTags("Exit"));
@@ -26,7 +26,7 @@ public class GenerateLevelEditor : FSystem {
 	private Family f_cell  = FamilyManager.getFamily(new AnyOfTags("Cell"));
 	private Family f_decoration = FamilyManager.getFamily(new AnyOfTags("Decoration"));
 
-	// On récupére les dialogues
+	// On rï¿½cupï¿½re les dialogues
 	private Family f_dialogs = FamilyManager.getFamily(new AllOfComponents(typeof(Dialogs)));
 
 
@@ -45,12 +45,15 @@ public class GenerateLevelEditor : FSystem {
     {
 		XmlDocument xmlDoc = new XmlDocument();
 
+		XmlDocument campaignMain = new XmlDocument();
+		campaignMain.Load("Assets/StreamingAssets/Scenario/GeneratedCampaign.xml");
+
 		XmlNode docNode = xmlDoc.CreateXmlDeclaration("1.0", "UTF-8", null);
 		xmlDoc.AppendChild(docNode);
 		XmlNode levelNode = xmlDoc.CreateElement("level");
 		xmlDoc.AppendChild(levelNode);
 
-		//On définit les différents noeuds du xml
+		//On dï¿½finit les diffï¿½rents noeuds du xml
 		XmlNode mapNode = xmlDoc.CreateElement("map");
 		levelNode.AppendChild(mapNode);
 		XmlNode dialogsNode = xmlDoc.CreateElement("dialogs");
@@ -59,7 +62,7 @@ public class GenerateLevelEditor : FSystem {
 		levelNode.AppendChild(blockLimitsNode);
 
 
-		// Parcours des objets placés avec l'éditeur de niveau et on crée la map
+		// Parcours des objets placï¿½s avec l'ï¿½diteur de niveau et on crï¿½e la map
 		List<float> line = new List<float>();
 		List<float> column = new List<float>();
 		Dictionary<(float,float), int> gridvalue = new Dictionary<(float,float), int>();
@@ -67,7 +70,7 @@ public class GenerateLevelEditor : FSystem {
 		// on pose d'abord les cell
 		foreach (GameObject goCell in f_cell)
         {
-			// on vérifie que ce n'est pas le mover
+			// on vï¿½rifie que ce n'est pas le mover
 			if(goCell.transform.parent == null)
             {
 				Vector3 posCell = goCell.transform.position;
@@ -105,7 +108,7 @@ public class GenerateLevelEditor : FSystem {
 				}
 				if (gridvalue.TryGetValue((gridX, gridY), out int output))
 				{
-					//si il y a déjà une cell à cette position on change la valeur
+					//si il y a dï¿½jï¿½ une cell ï¿½ cette position on change la valeur
 					gridvalue[(gridX, gridY)] = 1;
 				}
 				else
@@ -179,7 +182,21 @@ public class GenerateLevelEditor : FSystem {
 		writeXMLRobots(xmlDoc, levelNode, line, column);
 		writeXMLDecorations(xmlDoc, levelNode, line, column);
 
-		xmlDoc.Save("C:/Users/cedco/OneDrive/Bureau/PROJET ISG/SPY/Assets/XmlTest/test.xml");
+		var custom_level_id = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds(); // short uuid
+		string custom_level_id_str = custom_level_id.ToString();
+
+		XmlNode scenario = campaignMain.SelectSingleNode("//scenario");
+		XmlNode last_level = campaignMain.SelectSingleNode("//level");
+		XmlNode link_node = campaignMain.CreateElement("level");
+		XmlAttribute link_lvl_name = campaignMain.CreateAttribute("name");
+
+		link_lvl_name.Value = "Levels/GeneratedCampaign/CustomLevel" + custom_level_id_str.Substring(custom_level_id_str.Length - 3) + ".xml";
+		link_node.Attributes.Append(link_lvl_name);
+		scenario.InsertAfter(link_node, last_level);
+
+		// xmlDoc.Save("./Assets/XmlTest/CustomLevel" + custom_level_id_str.Substring(custom_level_id_str.Length - 3) + ".xml");
+		xmlDoc.Save("./Assets/StreamingAssets/Levels/GeneratedCampaign/CustomLevel" + custom_level_id_str.Substring(custom_level_id_str.Length - 3) + ".xml");
+		campaignMain.Save("Assets/StreamingAssets/Scenario/GeneratedCampaign.xml");
 
 	}
 
@@ -211,7 +228,7 @@ public class GenerateLevelEditor : FSystem {
 				XmlAttribute cellAttribute = xmlDoc.CreateAttribute("value");
 				int value;
 
-				// On regarde si on a un bloc à cette position dans la grille sinon c'est du vide
+				// On regarde si on a un bloc ï¿½ cette position dans la grille sinon c'est du vide
 				if (gridvalue.TryGetValue((line[i],column[j]), out int output))
                 {
 					value = output;

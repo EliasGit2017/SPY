@@ -261,14 +261,14 @@ public class TitleScreenSystem : FSystem {
 
 		// create level buttons for this campaign
 		for (int i = 0; i < defaultCampaigns[campaignKey].Count; i++)
-		{
+			{
 			string levelKey = defaultCampaigns[campaignKey][i];
 			GameObject button = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/LevelButton") as GameObject, listOfLevels.transform);
 			button.transform.Find("Button").GetChild(0).GetComponent<TextMeshProUGUI>().text = Path.GetFileNameWithoutExtension(levelKey);
 			button.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { launchLevel(campaignKey, levelKey); });
 			GameObjectManager.bind(button);
 			//locked levels
-			if (i <= PlayerPrefs.GetInt(campaignKey, 0)) //by default first level of directory is the only unlocked level of directory
+			if (/*i <= PlayerPrefs.GetInt(campaignKey, 0)*/ true) //by default first level of directory is the only unlocked level of directory
 				button.GetComponentInChildren<Button>().interactable = true;
 			//unlocked levels
 			else

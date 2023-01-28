@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <map>
+    <line>
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+    </line>
+    <line>
+      <cell value="1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="1" />
+    </line>
+    <line>
+      <cell value="1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="3" />
+      <cell value="1" />
+    </line>
+    <line>
+      <cell value="1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="1" />
+    </line>
+    <line>
+      <cell value="1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="1" />
+    </line>
+    <line>
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+      <cell value="1" />
+    </line>
+  </map>
+  <dialogs>
+    <dialog text="hello" />
+    <dialog text="solve me" />
+  </dialogs>
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="10" />
+    <blockLimit blockType="TurnLeft" limit="10" />
+    <blockLimit blockType="TurnRight" limit="10" />
+    <blockLimit blockType="TurnBack" limit="10" />
+    <blockLimit blockType="Activate" limit="10" />
+    <blockLimit blockType="Wait" limit="10" />
+    <blockLimit blockType="IfThen" limit="10" />
+    <blockLimit blockType="IfElse" limit="10" />
+    <blockLimit blockType="ForLoop" limit="10" />
+    <blockLimit blockType="While" limit="10" />
+    <blockLimit blockType="Forever" limit="10" />
+    <blockLimit blockType="AndOperator" limit="10" />
+    <blockLimit blockType="OrOperator" limit="10" />
+    <blockLimit blockType="NotOperator" limit="10" />
+    <blockLimit blockType="WallFront" limit="10" />
+    <blockLimit blockType="WallLeft" limit="10" />
+    <blockLimit blockType="WallRight" limit="10" />
+    <blockLimit blockType="Enemy" limit="10" />
+    <blockLimit blockType="RedArea" limit="10" />
+    <blockLimit blockType="FieldGate" limit="10" />
+    <blockLimit blockType="Terminal" limit="10" />
+    <blockLimit blockType="Exit" limit="10" />
+  </blockLimits>
+  <player associatedScriptName="Robot Kyle(Clone)" posY="3" posX="1" direction="0" />
+  <script name="Robot Kyle(Clone)" editMode="0" />
+</level>
