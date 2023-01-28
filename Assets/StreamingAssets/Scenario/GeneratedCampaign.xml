@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <scenario>
-  <level name="Levels/GeneratedCampaign/test2.xml" />
+  <!--<level name="Levels/GeneratedCampaign/test2.xml" />-->
+  <level name="Levels/GeneratedCampaign/CustomLevel308.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel570.xml" />
+  <level name="Levels/GeneratedCampaign/CustomLevel719.xml" />
   <level name="Levels/GeneratedCampaign/CustomLevel692.xml" />
 </scenario>
