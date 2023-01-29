@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Manage position and Direction component to move agent accordingly
@@ -50,7 +51,6 @@ public class MoveSystem : FSystem {
     {
 		playMoveAnimation(go);
 		MainLoop.instance.StartCoroutine(removeForceMoving(go));
-		
     }
 
 	private IEnumerator removeForceMoving(GameObject go)
@@ -58,6 +58,21 @@ public class MoveSystem : FSystem {
 		yield return new WaitForSeconds(.5f);
 		foreach (ForceMoveAnimation forceMove in go.GetComponentsInChildren<ForceMoveAnimation>(true))
 			GameObjectManager.removeComponent(forceMove);
+	}
+
+	// SendStatement for LRS : robot movements (no visualization on dashboard)
+	public void RobotMovedStatement(string position, string rotation, string direction) 
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "moved",
+			objectType = "avatar",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "position", position },
+				{"rotation",rotation},
+				{"direction",direction}
+			}
+		});
 	}
 
 	private void playMoveAnimation(GameObject go)

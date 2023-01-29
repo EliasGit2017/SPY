@@ -1,6 +1,7 @@
 using FYFY;
 using FYFY_plugins.PointerManager;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -136,6 +137,19 @@ public class DragDropSystem : FSystem
 		}
     }
 
+
+	public void DraggredActionStatement(string actionName)
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "dragged",
+			objectType = "action",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "action_name", actionName }
+			}
+		});
+	}
+
 	// used by prefabs on ReplacementSlot
 	public void unhighlightDropArea(GameObject dropArea)
 	{
@@ -169,6 +183,18 @@ public class DragDropSystem : FSystem
 		}
 	}
 
+	public void DroppedActionStatement(string actionname, string dropArea)
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "dropped",
+			objectType = "action",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "action_name", actionname },
+				{"position",dropArea}
+			}
+		});
+	}
 
 	// Lors de la selection (d�but d'un drag) d'un bloc dans la zone d'�dition
 	public void beginDragElementFromEditableScript(BaseEventData element)
@@ -279,10 +305,11 @@ public class DragDropSystem : FSystem
 					foreach (RaycastOnDrag child in itemDragged.GetComponentsInChildren<RaycastOnDrag>(true))
 						child.GetComponent<Image>().raycastTarget = true;
 				}
+				DroppedActionStatement(itemDragged.name, dropArea.name);
 			}
 			// Rafraichissement de l'UI
 			GameObjectManager.addComponent<NeedRefreshPlayButton>(MainLoop.instance.gameObject);
-
+			DraggredActionStatement(itemDragged.name);
 			itemDragged = null;
 		}
 	}

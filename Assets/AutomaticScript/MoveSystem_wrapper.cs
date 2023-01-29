@@ -16,4 +16,9 @@ public class MoveSystem_wrapper : BaseWrapper
 		MainLoop.initAppropriateSystemField (system, "footSpeed", footSpeed);
 	}
 
+	public void RobotMovedStatement()
+	{
+		MainLoop.callAppropriateSystemMethod (system, "RobotMovedStatement", null);
+	}
+
 }

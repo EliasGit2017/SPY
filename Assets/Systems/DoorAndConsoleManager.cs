@@ -1,6 +1,7 @@
 using UnityEngine;
 using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 
 /// <summary>
 /// Manage Doors and Consoles => open/close doors depending on consoles state
@@ -70,6 +71,7 @@ public class DoorAndConsoleManager : FSystem {
 					slotGo.transform.parent.GetComponent<Animator>().SetTrigger("Open");
 					slotGo.transform.parent.GetComponent<Animator>().speed = gameData.gameSpeed_current;
 					updatePathColor(id, false);
+					DoorOpenedStatement($"door_{id}");
 				}
 			}
 		}
@@ -131,4 +133,18 @@ public class DoorAndConsoleManager : FSystem {
             }
         }
     }
+
+	// Send Statement to report about an opened door
+	public void DoorOpenedStatement(string ObjectName)
+    {
+        GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+        {
+            verb = "activated",
+            objectType = "key",
+            activityExtensions = new Dictionary<string, string>() {
+                { "value", ObjectName },
+            }
+        });
+    }
+
 }

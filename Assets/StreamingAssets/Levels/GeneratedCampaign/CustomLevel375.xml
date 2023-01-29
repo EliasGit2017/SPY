@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <map>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="1" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+      <cell value="0" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="0" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+    <line>
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="3" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+      <cell value="-1" />
+    </line>
+  </map>
+  <dialogs>
+    <dialog text="Bip Boop bap biiip" />
+    <dialog text="J'espère ne pas me tromper de chemin !!" />
+    <dialog text="Mon Processeur attend tes instructions" />
+  </dialogs>
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="10" />
+    <blockLimit blockType="TurnLeft" limit="10" />
+    <blockLimit blockType="TurnRight" limit="10" />
+    <blockLimit blockType="TurnBack" limit="10" />
+    <blockLimit blockType="Activate" limit="10" />
+    <blockLimit blockType="Wait" limit="0" />
+    <blockLimit blockType="IfThen" limit="10" />
+    <blockLimit blockType="IfElse" limit="10" />
+    <blockLimit blockType="ForLoop" limit="10" />
+    <blockLimit blockType="While" limit="10" />
+    <blockLimit blockType="Forever" limit="10" />
+    <blockLimit blockType="AndOperator" limit="10" />
+    <blockLimit blockType="OrOperator" limit="10" />
+    <blockLimit blockType="NotOperator" limit="10" />
+    <blockLimit blockType="WallFront" limit="10" />
+    <blockLimit blockType="WallLeft" limit="10" />
+    <blockLimit blockType="WallRight" limit="10" />
+    <blockLimit blockType="Enemy" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="0" />
+    <blockLimit blockType="Terminal" limit="2" />
+    <blockLimit blockType="Exit" limit="0" />
+  </blockLimits>
+  <player associatedScriptName="Robot Kyle(Clone)" posY="0" posX="4" direction="2" />
+  <script name="Robot Kyle(Clone)" editMode="0" />
+</level>

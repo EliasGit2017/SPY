@@ -261,18 +261,18 @@ public class TitleScreenSystem : FSystem {
 
 		// create level buttons for this campaign
 		for (int i = 0; i < defaultCampaigns[campaignKey].Count; i++)
-		{
+			{
 			string levelKey = defaultCampaigns[campaignKey][i];
 			GameObject button = GameObject.Instantiate<GameObject>(Resources.Load("Prefabs/LevelButton") as GameObject, listOfLevels.transform);
 			button.transform.Find("Button").GetChild(0).GetComponent<TextMeshProUGUI>().text = Path.GetFileNameWithoutExtension(levelKey);
 			button.transform.Find("Button").GetComponent<Button>().onClick.AddListener(delegate { launchLevel(campaignKey, levelKey); });
 			GameObjectManager.bind(button);
 			//locked levels
-			if (i <= PlayerPrefs.GetInt(campaignKey, 0)) //by default first level of directory is the only unlocked level of directory
+			if (/*i <= PlayerPrefs.GetInt(campaignKey, 0)*/ true) //by default first level of directory is the only unlocked level of directory
 				button.GetComponentInChildren<Button>().interactable = true;
 			//unlocked levels
-			else
-				button.GetComponentInChildren<Button>().interactable = false;
+			// else
+			// 	button.GetComponentInChildren<Button>().interactable = false;
 			//scores
 			int scoredStars = PlayerPrefs.GetInt(levelKey + gameData.scoreKey, 0); //0 star by default
 			Transform scoreCanvas = button.transform.Find("ScoreCanvas");
@@ -286,10 +286,25 @@ public class TitleScreenSystem : FSystem {
 		}
 	}
 
+	public void LevelRefStatement(string levelNumber, string campaignKey)
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "loaded",
+			objectType = "level",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "level_number", levelNumber },
+				{ "value", campaignKey}
+			}
+		});
+	}
+
+
 	public void launchLevel(string campaignKey, string levelToLoad) {
 		gameData.scenarioName = campaignKey;
 		gameData.levelToLoad = levelToLoad;
 		gameData.scenario = defaultCampaigns[campaignKey];
+		LevelRefStatement(levelToLoad, campaignKey);
 		GameObjectManager.loadScene("MainScene");
 	}
 

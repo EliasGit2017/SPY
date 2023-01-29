@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <map />
+  <dialogs />
+  <blockLimits>
+    <blockLimit blockType="Forward" limit="0" />
+    <blockLimit blockType="TurnLeft" limit="0" />
+    <blockLimit blockType="TurnRight" limit="0" />
+    <blockLimit blockType="TurnBack" limit="0" />
+    <blockLimit blockType="Activate" limit="0" />
+    <blockLimit blockType="Wait" limit="0" />
+    <blockLimit blockType="IfThen" limit="0" />
+    <blockLimit blockType="IfElse" limit="0" />
+    <blockLimit blockType="ForLoop" limit="0" />
+    <blockLimit blockType="While" limit="0" />
+    <blockLimit blockType="Forever" limit="0" />
+    <blockLimit blockType="AndOperator" limit="0" />
+    <blockLimit blockType="OrOperator" limit="0" />
+    <blockLimit blockType="NotOperator" limit="0" />
+    <blockLimit blockType="WallFront" limit="0" />
+    <blockLimit blockType="WallLeft" limit="0" />
+    <blockLimit blockType="WallRight" limit="0" />
+    <blockLimit blockType="Enemy" limit="0" />
+    <blockLimit blockType="RedArea" limit="0" />
+    <blockLimit blockType="FieldGate" limit="0" />
+    <blockLimit blockType="Terminal" limit="0" />
+    <blockLimit blockType="Exit" limit="0" />
+  </blockLimits>
+  <script name="Script2">
+    <action type="Forward" />
+    <if>
+      <condition>
+        <and>
+          <conditionLeft>
+            <captor type="WallFront" />
+          </conditionLeft>
+          <conditionRight>
+            <captor type="FieldGate" />
+          </conditionRight>
+        </and>
+      </condition>
+      <container>
+        <action type="Wait" />
+      </container>
+    </if>
+    <action type="TurnBack" />
+  </script>
+</level>
