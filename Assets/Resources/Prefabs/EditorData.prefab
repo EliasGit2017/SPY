@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   editorMode: 0
-  editorBlock: {fileID: 0}
+  editorBlock: {fileID: 9157685522785862460, guid: d8b86bf11d6316f439d36b197173508e,
+    type: 3}
   propertiesBlock: {fileID: 0}
