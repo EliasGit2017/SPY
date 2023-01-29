@@ -1,28 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <level>
-  <map>
-    <line>
-      <cell value="3" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-    </line>
-    <line>
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-    </line>
-    <line>
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-      <cell value="0" />
-    </line>
-  </map>
+  <map />
   <dialogs />
   <blockLimits>
     <blockLimit blockType="Forward" limit="0" />
@@ -48,13 +26,23 @@
     <blockLimit blockType="Terminal" limit="0" />
     <blockLimit blockType="Exit" limit="0" />
   </blockLimits>
-  <player associatedScriptName="Cedric" posY="2" posX="0" direction="0" />
-  <enemy associatedScriptName="Guarde" posY="0" posX="4" direction="3" range="1" selfRange="False" typeRange="0" />
-  <script name="Cedric">
+  <script name="Script2">
     <action type="Forward" />
-    <action type="Forward" />
-  </script>
-  <script name="Guarde">
-    <action type="Forward" />
+    <if>
+      <condition>
+        <and>
+          <conditionLeft>
+            <captor type="WallFront" />
+          </conditionLeft>
+          <conditionRight>
+            <captor type="FieldGate" />
+          </conditionRight>
+        </and>
+      </condition>
+      <container>
+        <action type="Wait" />
+      </container>
+    </if>
+    <action type="TurnBack" />
   </script>
 </level>

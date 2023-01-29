@@ -284,15 +284,24 @@ public class GenerateLevelEditor : FSystem {
 							//Condition
 							XmlNode conditionNode = xmlDoc.CreateElement("condition");
 							GameObject condition = whileAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
-							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
-							{
-								XmlNode actionNode = xmlDoc.CreateElement("captor");
-								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
-								typeAttribute.Value = capt.captorType.ToString();
-								actionNode.Attributes.Append(typeAttribute);
-								conditionNode.AppendChild(actionNode);
+                            if (condition.GetComponentsInChildren(typeof(BaseOperator)).Length == 1)
+                            {
+								foreach (BaseOperator op in condition.GetComponentsInChildren<BaseOperator>(true))
+								{
+									WriteXMLOperator(xmlDoc, conditionNode, op);
+								}
 							}
-
+                            else
+                            {
+								foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+								{
+									XmlNode actionNode = xmlDoc.CreateElement("captor");
+									XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+									typeAttribute.Value = capt.captorType.ToString();
+									actionNode.Attributes.Append(typeAttribute);
+									conditionNode.AppendChild(actionNode);
+								}
+							}
 
 							//Then
 							XmlNode containerNode = xmlDoc.CreateElement("container");
@@ -351,6 +360,7 @@ public class GenerateLevelEditor : FSystem {
 					if (bloc.gameObject.GetComponent<IfControl>())
 					{
 						IfControl ifAct = bloc.gameObject.GetComponent<IfControl>();
+
 						//Si c'est un elseAction
 						if (ifAct is IfElseControl)
                         {
@@ -359,13 +369,24 @@ public class GenerateLevelEditor : FSystem {
 							//Condition
 							XmlNode conditionNode = xmlDoc.CreateElement("condition");
 							GameObject condition = ifAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
-							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+
+							if (condition.GetComponentsInChildren(typeof(BaseOperator)).Length == 1)
 							{
-								XmlNode actionNode = xmlDoc.CreateElement("captor");
-								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
-								typeAttribute.Value = capt.captorType.ToString();
-								actionNode.Attributes.Append(typeAttribute);
-								conditionNode.AppendChild(actionNode);
+								foreach (BaseOperator op in condition.GetComponentsInChildren<BaseOperator>(true))
+								{
+									WriteXMLOperator(xmlDoc, conditionNode, op);
+								}
+							}
+                            else
+                            {
+								foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+								{
+									XmlNode actionNode = xmlDoc.CreateElement("captor");
+									XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+									typeAttribute.Value = capt.captorType.ToString();
+									actionNode.Attributes.Append(typeAttribute);
+									conditionNode.AppendChild(actionNode);
+								}
 							}
 
 							//ThenContainer
@@ -406,13 +427,25 @@ public class GenerateLevelEditor : FSystem {
 							//Condition
 							XmlNode conditionNode = xmlDoc.CreateElement("condition");
 							GameObject condition = ifAct.gameObject.transform.Find("ConditionContainer").GetChild(0).gameObject;
-							foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+
+							if (condition.GetComponentsInChildren(typeof(BaseOperator)).Length == 1)
 							{
-								XmlNode actionNode = xmlDoc.CreateElement("captor");
-								XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
-								typeAttribute.Value = capt.captorType.ToString();
-								actionNode.Attributes.Append(typeAttribute);
-								conditionNode.AppendChild(actionNode);
+								foreach (BaseOperator op in condition.GetComponentsInChildren<BaseOperator>(true))
+								{
+									WriteXMLOperator(xmlDoc, conditionNode, op);
+								}
+							}
+                            else
+                            {
+								foreach (BaseCaptor capt in condition.GetComponentsInChildren<BaseCaptor>(true))
+								{
+									XmlNode actionNode = xmlDoc.CreateElement("captor");
+									XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+									typeAttribute.Value = capt.captorType.ToString();
+									actionNode.Attributes.Append(typeAttribute);
+									conditionNode.AppendChild(actionNode);
+								}
+
 							}
 
 							//Then
@@ -439,6 +472,86 @@ public class GenerateLevelEditor : FSystem {
 		}
 	}
 
+	private void WriteXMLOperator(XmlDocument xmlDoc, XmlNode conditionNode,BaseOperator op)
+    {
+		switch((int)op.operatorType)
+		{
+			case 0: // AndOperator
+				XmlNode andNode = xmlDoc.CreateElement("and");
+				GameObject container = op.gameObject.transform.Find("Container").gameObject;
+
+				BaseCaptor captLeft = container.transform.GetChild(0).gameObject.GetComponent<BaseCaptor>();
+				XmlNode conditionLeft = xmlDoc.CreateElement("conditionLeft");
+
+				XmlNode captorNode = xmlDoc.CreateElement("captor");
+				XmlAttribute typeAttribute = xmlDoc.CreateAttribute("type");
+				typeAttribute.Value = captLeft.captorType.ToString();
+				captorNode.Attributes.Append(typeAttribute);
+				conditionLeft.AppendChild(captorNode);
+
+
+				BaseCaptor captRight = container.transform.GetChild(3).GetComponent<BaseCaptor>();
+				XmlNode conditionRight = xmlDoc.CreateElement("conditionRight");
+
+				XmlNode captorNode2 = xmlDoc.CreateElement("captor");
+				XmlAttribute typeAttribute2 = xmlDoc.CreateAttribute("type");
+				typeAttribute2.Value = captRight.captorType.ToString();
+				captorNode2.Attributes.Append(typeAttribute2);
+				conditionRight.AppendChild(captorNode2);
+
+				andNode.AppendChild(conditionLeft);
+				andNode.AppendChild(conditionRight);
+
+				conditionNode.AppendChild(andNode);
+
+				break;
+			case 1: // OrOperator
+
+				XmlNode orNode = xmlDoc.CreateElement("or");
+				GameObject orcontainer = op.gameObject.transform.Find("Container").gameObject;
+
+				BaseCaptor orcaptLeft = orcontainer.transform.GetChild(0).gameObject.GetComponent<BaseCaptor>();
+				XmlNode orconditionLeft = xmlDoc.CreateElement("conditionLeft");
+
+				XmlNode orcaptorNode = xmlDoc.CreateElement("captor");
+				XmlAttribute ortypeAttribute = xmlDoc.CreateAttribute("type");
+				ortypeAttribute.Value = orcaptLeft.captorType.ToString();
+				orcaptorNode.Attributes.Append(ortypeAttribute);
+				orconditionLeft.AppendChild(orcaptorNode);
+
+
+				BaseCaptor orcaptRight = orcontainer.transform.GetChild(3).GetComponent<BaseCaptor>();
+				XmlNode orconditionRight = xmlDoc.CreateElement("conditionRight");
+
+				XmlNode orcaptorNode2 = xmlDoc.CreateElement("captor");
+				XmlAttribute ortypeAttribute2 = xmlDoc.CreateAttribute("type");
+				ortypeAttribute2.Value = orcaptRight.captorType.ToString();
+				orcaptorNode2.Attributes.Append(ortypeAttribute2);
+				orconditionRight.AppendChild(orcaptorNode2);
+
+				orNode.AppendChild(orconditionLeft);
+				orNode.AppendChild(orconditionRight);
+
+				conditionNode.AppendChild(orNode);
+
+				break;
+			case 2: // NotOperator
+				XmlNode notNode = xmlDoc.CreateElement("not");
+				GameObject notcontainer = op.gameObject.transform.Find("Container").gameObject;
+
+				BaseCaptor notcapt = notcontainer.transform.GetChild(1).gameObject.GetComponent<BaseCaptor>();
+
+				XmlNode notcaptorNode = xmlDoc.CreateElement("captor");
+				XmlAttribute nottypeAttribute = xmlDoc.CreateAttribute("type");
+				nottypeAttribute.Value = notcapt.captorType.ToString();
+				notcaptorNode.Attributes.Append(nottypeAttribute);
+				notNode.AppendChild(notcaptorNode);
+
+				conditionNode.AppendChild(notNode);
+				break;
+		}
+
+	}
 	private void writeXMLBlockLimits(XmlDocument xmlDoc, XmlNode blockLimitsNode)
     {
 		foreach((string blockType, int limit) in editorData.actionBlockLimit)
