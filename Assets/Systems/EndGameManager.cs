@@ -82,7 +82,7 @@ public class EndGameManager : FSystem
                             GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.Win });
                             LevelCompleteStatement(gameData.scenarioName, gameData.totalStep, gameData.totalActionBlocUsed);
                         }
-                        AtTelePorteStatementt("");
+                        AtTelePorteStatement("");
                     }
                 }
             }
@@ -289,7 +289,7 @@ public class EndGameManager : FSystem
         });
     }
 
-    public void AtTelePorteStatementt(string time)
+    public void AtTelePorteStatement(string time)
     {
         GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new
         {

@@ -145,7 +145,8 @@ public class DragDropSystem : FSystem
 			verb = "dragged",
 			objectType = "action",
 			activityExtensions = new Dictionary<string, string>() {
-				{ "action_name", actionName }
+				{ "action_name", actionName },
+				
 			}
 		});
 	}

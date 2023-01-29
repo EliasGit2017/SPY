@@ -22,9 +22,9 @@ public class EndGameManager_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "LevelCompleteStatement", null);
 	}
 
-	public void AtTelePorteStatementt(System.String time)
+	public void AtTelePorteStatement(System.String time)
 	{
-		MainLoop.callAppropriateSystemMethod (system, "AtTelePorteStatementt", time);
+		MainLoop.callAppropriateSystemMethod (system, "AtTelePorteStatement", time);
 	}
 
 }
