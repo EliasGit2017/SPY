@@ -638,6 +638,7 @@ public class GenerateLevelEditor : FSystem {
 					posXAttribute.Value = column.IndexOf(gridY).ToString();
 					directionAttribute.Value = ((int)(goConsole.GetComponent<Direction>().direction)).ToString();
 
+					consoleNode.Attributes.Append(stateAttribute);
 					consoleNode.Attributes.Append(posYAttribute);
 					consoleNode.Attributes.Append(posXAttribute);
 					consoleNode.Attributes.Append(directionAttribute);
