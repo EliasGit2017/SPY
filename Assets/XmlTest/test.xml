@@ -28,33 +28,21 @@
   </blockLimits>
   <script name="Script2">
     <action type="Forward" />
-    <ifElse>
+    <if>
       <condition>
-        <not>
-          <captor type="WallFront" />
-        </not>
-      </condition>
-      <thenContainer>
-        <action type="Forward" />
-      </thenContainer>
-      <elseContainer>
-        <action type="Wait" />
-      </elseContainer>
-    </ifElse>
-    <while>
-      <condition>
-        <or>
+        <and>
           <conditionLeft>
-            <captor type="WallRight" />
+            <captor type="WallFront" />
           </conditionLeft>
           <conditionRight>
             <captor type="FieldGate" />
           </conditionRight>
-        </or>
+        </and>
       </condition>
       <container>
         <action type="Wait" />
       </container>
-    </while>
+    </if>
+    <action type="TurnBack" />
   </script>
 </level>
