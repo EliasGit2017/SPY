@@ -271,8 +271,8 @@ public class TitleScreenSystem : FSystem {
 			if (/*i <= PlayerPrefs.GetInt(campaignKey, 0)*/ true) //by default first level of directory is the only unlocked level of directory
 				button.GetComponentInChildren<Button>().interactable = true;
 			//unlocked levels
-			else
-				button.GetComponentInChildren<Button>().interactable = false;
+			// else
+			// 	button.GetComponentInChildren<Button>().interactable = false;
 			//scores
 			int scoredStars = PlayerPrefs.GetInt(levelKey + gameData.scoreKey, 0); //0 star by default
 			Transform scoreCanvas = button.transform.Find("ScoreCanvas");
