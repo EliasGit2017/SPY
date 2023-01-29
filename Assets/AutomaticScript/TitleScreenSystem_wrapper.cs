@@ -34,6 +34,11 @@ public class TitleScreenSystem_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "updateScenarioList", null);
 	}
 
+	public void LevelRefStatement()
+	{
+		MainLoop.callAppropriateSystemMethod (system, "LevelRefStatement", null);
+	}
+
 	public void launchLevel()
 	{
 		MainLoop.callAppropriateSystemMethod (system, "launchLevel", null);
