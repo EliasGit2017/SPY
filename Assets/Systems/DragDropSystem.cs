@@ -138,7 +138,7 @@ public class DragDropSystem : FSystem
     }
 
 
-	public void ActionDraggredStatement(string actionName)
+	public void DraggredActionStatement(string actionName)
 	{
 		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
 		{
@@ -183,6 +183,18 @@ public class DragDropSystem : FSystem
 		}
 	}
 
+	public void DroppedActionStatement(string actionname, string dropArea)
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "dropped",
+			objectType = "action",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "action_name", actionname },
+				{"position",dropArea}
+			}
+		});
+	}
 
 	// Lors de la selection (d�but d'un drag) d'un bloc dans la zone d'�dition
 	public void beginDragElementFromEditableScript(BaseEventData element)
@@ -293,10 +305,11 @@ public class DragDropSystem : FSystem
 					foreach (RaycastOnDrag child in itemDragged.GetComponentsInChildren<RaycastOnDrag>(true))
 						child.GetComponent<Image>().raycastTarget = true;
 				}
+				DroppedActionStatement(itemDragged.name, dropArea.name);
 			}
 			// Rafraichissement de l'UI
 			GameObjectManager.addComponent<NeedRefreshPlayButton>(MainLoop.instance.gameObject);
-			ActionDraggredStatement(itemDragged.name);
+			DraggredActionStatement(itemDragged.name);
 			itemDragged = null;
 		}
 	}

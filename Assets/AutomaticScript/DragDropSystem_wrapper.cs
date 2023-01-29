@@ -21,9 +21,9 @@ public class DragDropSystem_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "checkHighlightDropArea", dropArea);
 	}
 
-	public void ActionDraggredStatement(System.String actionName)
+	public void DraggredActionStatement(System.String actionName)
 	{
-		MainLoop.callAppropriateSystemMethod (system, "ActionDraggredStatement", actionName);
+		MainLoop.callAppropriateSystemMethod (system, "DraggredActionStatement", actionName);
 	}
 
 	public void unhighlightDropArea(UnityEngine.GameObject dropArea)
@@ -34,6 +34,11 @@ public class DragDropSystem_wrapper : BaseWrapper
 	public void beginDragElementFromLibrary(UnityEngine.EventSystems.BaseEventData element)
 	{
 		MainLoop.callAppropriateSystemMethod (system, "beginDragElementFromLibrary", element);
+	}
+
+	public void DroppedActionStatement()
+	{
+		MainLoop.callAppropriateSystemMethod (system, "DroppedActionStatement", null);
 	}
 
 	public void beginDragElementFromEditableScript(UnityEngine.EventSystems.BaseEventData element)

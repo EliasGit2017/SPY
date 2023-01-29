@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using FYFY;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using System.IO;
 
@@ -72,9 +73,12 @@ public class EndGameManager : FSystem {
 					{
 						nbEnd++;
 						// if all players reached end position
-						if (nbEnd >= f_exit.Count)
+						if (nbEnd >= f_exit.Count) {
 							// trigger end
 							GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.Win });
+							LevelCompleteStatement(gameData.scenarioName, gameData.totalStep, gameData.totalActionBlocUsed);
+						}
+						AtTelePorteStatementt("");
 					}
 				}
 			}
@@ -254,4 +258,31 @@ public class EndGameManager : FSystem {
 		if (f_requireEndPanel.Count <= 0 && playButtonAmount.activeSelf && playButtonAmount.GetComponentInChildren<TMP_Text>().text == "0")
 			GameObjectManager.addComponent<NewEnd>(MainLoop.instance.gameObject, new { endType = NewEnd.NoMoreAttempt });
 	}
+
+
+	/*A mettre a la completion d'un niveau levelnumber = niveau */
+    public void LevelCompleteStatement(string levelNumber, int totalSteps, int totalBlocsUsed)
+    {
+        GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+        {
+            verb = "completed",
+            objectType = "level",
+            activityExtensions = new Dictionary<string, string>() {
+                { "level_number", levelNumber },
+                { "value", $"steps {totalSteps}, blocsUsed {totalBlocsUsed}" },
+            }
+        });
+    }
+
+	public void AtTelePorteStatementt(string time)
+    {
+        GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+        {
+            verb = "reached",
+            objectType = "teleporter",
+            activityExtensions = new Dictionary<string, string>() {
+                { "time", time },
+            }
+        });
+    }
 }
