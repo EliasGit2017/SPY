@@ -1,6 +1,7 @@
 using FYFY;
 using FYFY_plugins.PointerManager;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -135,6 +136,19 @@ public class DragDropSystem : FSystem
 			}
 		}
     }
+
+
+	public void ActionDraggredStatement(string actionName)
+	{
+		GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+		{
+			verb = "dragged",
+			objectType = "action",
+			activityExtensions = new Dictionary<string, string>() {
+				{ "action_name", actionName }
+			}
+		});
+	}
 
 	// used by prefabs on ReplacementSlot
 	public void unhighlightDropArea(GameObject dropArea)
@@ -282,7 +296,7 @@ public class DragDropSystem : FSystem
 			}
 			// Rafraichissement de l'UI
 			GameObjectManager.addComponent<NeedRefreshPlayButton>(MainLoop.instance.gameObject);
-
+			ActionDraggredStatement(itemDragged.name);
 			itemDragged = null;
 		}
 	}

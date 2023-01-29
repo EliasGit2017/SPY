@@ -18,4 +18,14 @@ public class SendStatements_wrapper : BaseWrapper
 		MainLoop.callAppropriateSystemMethod (system, "exampleStatement", null);
 	}
 
+	public void LevelCompletedStatement()
+	{
+		MainLoop.callAppropriateSystemMethod (system, "LevelCompletedStatement", null);
+	}
+
+	public void AtTelePorteStatement(System.String time)
+	{
+		MainLoop.callAppropriateSystemMethod (system, "AtTelePorteStatement", time);
+	}
+
 }

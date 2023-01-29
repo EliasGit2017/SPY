@@ -78,6 +78,7 @@ public class SendStatements : FSystem {
         }
 	}
 
+    // Dummy Statement for tests only :
     public void exampleStatement()
     {
         Debug.Log(GBL_Interface.playerName + " asks to send statement...");
@@ -91,4 +92,30 @@ public class SendStatements : FSystem {
             // }
         });
     }
+
+    public void LevelCompletedStatement(string levelnb, string time) 
+    {
+        GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+        {
+            verb = "completed",
+            objectType = "level",
+            activityExtensions = new Dictionary<string, string>() {
+                { "level_number", levelnb },
+                { "time", time }
+            }
+        });
+    }
+
+    public void AtTelePorteStatement(string time)
+    {
+        GameObjectManager.addComponent<ActionPerformedForLRS>(MainLoop.instance.gameObject, new 
+        {
+            verb = "reached",
+            objectType = "teleporter",
+            activityExtensions = new Dictionary<string, string>() {
+                { "time", time },
+            }
+        });
+    }
+
 }
