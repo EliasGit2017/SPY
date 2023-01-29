@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GenerateLevelEditor : FSystem {
 
@@ -197,8 +198,8 @@ public class GenerateLevelEditor : FSystem {
 		// xmlDoc.Save("./Assets/XmlTest/CustomLevel" + custom_level_id_str.Substring(custom_level_id_str.Length - 3) + ".xml");
 		xmlDoc.Save("./Assets/StreamingAssets/Levels/GeneratedCampaign/CustomLevel" + custom_level_id_str.Substring(custom_level_id_str.Length - 3) + ".xml");
 		campaignMain.Save("Assets/StreamingAssets/Scenario/GeneratedCampaign.xml");
-
-	}
+		GameObjectManager.loadScene("TitleScreen");
+    }
 
 	private void writeXMLMap(XmlDocument xmlDoc, XmlNode mapNode, List<float> line, List<float> column, Dictionary<(float, float), int> gridvalue)
 	{
